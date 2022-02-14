@@ -195,7 +195,6 @@ const FormApp = ({ edit, setEdit }) => {
               value={newAppointment.ownerName}
             />
             <TextField
-              type="text"
               id="email"
               label="Email / Teléfono"
               onChange={handleChange}
@@ -203,8 +202,7 @@ const FormApp = ({ edit, setEdit }) => {
               type="email"
               value={newAppointment.email}
             />
-            <TextField
-              type="text"
+            <TextField              
               id="date"
               sx={{ m: 1, width: "46ch", alignSelf: "center" }}
               type="datetime-local"

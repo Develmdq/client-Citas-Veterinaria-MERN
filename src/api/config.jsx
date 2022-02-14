@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = "http://localhost:4000/api";
+const API = import.meta.env.VITE_API_BACKEND_URL;
 
 export const getAppointments = async () => {
   const { data } = await axios.get(`${API}/appointments`);
