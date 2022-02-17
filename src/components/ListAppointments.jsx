@@ -3,17 +3,17 @@ import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import Appointment from "./Appointment";
-  
+
 const ListAppointments = ({
   setEdit,
   appointment,
   status,
   value,
-  setValue,  
+  setValue,
 }) => {
   //Capturando valor del input de la fecha
   const handleChange = (newDay) => setValue(newDay);
- 
+
   if (status === "loading") {
     return (
       <Typography
@@ -52,21 +52,29 @@ const ListAppointments = ({
   }
 
   return (
-    <Grid display="flex" flexDirection="column">
+    <Box
+      display="flex"
+      alignItems="space-between"
+      flexDirection="column"
+      justifyContent="center"
+    >
       <Box
         display="flex"
-        alignSelf="center"
-        width="97%"
-        justifyContent="center"
+        sx={{ justifyContent: "space-around", marginTop: "2%" }}
       >
-        <Box flex="1">
+        <Box>
           {appointment[0] ? (
-            <Typography variant="h4" color="primary" marginTop="4%">
+            <Typography
+              variant="h5"
+              color="#4a0788"
+              marginTop="3%"
+              marginBottom="1%"
+            >
               {`Citas del ${appointment[0].day}`}
             </Typography>
           ) : (
             <Typography
-              variant="h4"
+              variant="h5"
               color="primary"
               marginTop="3%"
               textAlign="center"
@@ -87,6 +95,7 @@ const ListAppointments = ({
           </LocalizationProvider>
         </Box>
       </Box>
+
       <Box marginTop="30px">
         {appointment?.map((appointment) => (
           <Appointment
@@ -96,7 +105,7 @@ const ListAppointments = ({
           />
         ))}
       </Box>
-    </Grid>
+    </Box>
   );
 };
 

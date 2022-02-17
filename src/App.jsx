@@ -36,11 +36,27 @@ const App = () => {
       <Grid>
         <Header />
       </Grid>
-      <Grid container p={3} bgcolor="#cccccc33" minHeight="100vh">
-        <Grid item xs={12} md={6}>
+      <Grid
+        container
+        p={2}
+        bgcolor="#cccccc33"
+        minHeight="100vh"
+        sx={{ display: "flex", flexDirection: { xl: "row", xxs: "column" } }}
+      >
+        <Grid
+          item
+          md={12}
+          xl={6}
+          sx={{ justifyContent: "center", alignItems: "center", width: "100%" }}
+        >
           <FormApp edit={edit} setEdit={setEdit} appointment={appointment} />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid
+          item
+          md={12}
+          xl={6}
+          sx={{ justifyContent: "center", alignItems: "center", width: "100%" }}
+        >
           <ListAppointments
             edit={edit}
             setEdit={setEdit}

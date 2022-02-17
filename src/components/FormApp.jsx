@@ -27,7 +27,7 @@ const FormApp = ({ edit, setEdit }) => {
   const queryClient = useQueryClient();
 
   const conditionalView = Object.entries(edit).length === 0;
-   
+
   //Creando una cita nueva
   const { mutate: createMutate } = useMutation(createNewAppointment, {
     onSuccess: () => queryClient.invalidateQueries(["appointments"]),
@@ -37,10 +37,10 @@ const FormApp = ({ edit, setEdit }) => {
   const { mutate: editMutate } = useMutation(editAppointment, {
     onSuccess: (newAppointment) => {
       queryClient.invalidateQueries(["appointments"]);
-      // queryClient.setQueryData(
-      //   ["appointments", { id: newAppointment.id }],
-      //   newAppointment
-      // );
+      queryClient.setQueryData(
+        ["appointments", { id: newAppointment.id }],
+        newAppointment
+      );
     },
   });
 
@@ -57,7 +57,7 @@ const FormApp = ({ edit, setEdit }) => {
     }
   }, [edit]);
 
-  const handleDate = (e) => {    
+  const handleDate = (e) => {
     const dayInput = new Date(e.target.value);
     const dayFormat = format(dayInput, "PPPP", { locale: es });
     const hourFormat = format(dayInput, "HH:mm");
@@ -68,14 +68,14 @@ const FormApp = ({ edit, setEdit }) => {
       hour: hourFormat,
     });
   };
- 
-  const handleChange = (e) => {        
+
+  const handleChange = (e) => {
     switch (e.target.id) {
       case "petName":
-         setNewAppointment({
-           ...newAppointment,
-           petName: e.target.value           
-         });        
+        setNewAppointment({
+          ...newAppointment,
+          petName: e.target.value,
+        });
         break;
       case "ownerName":
         setNewAppointment({
@@ -100,7 +100,7 @@ const FormApp = ({ edit, setEdit }) => {
     }
   };
 
-  const handleSubmit = () => {    
+  const handleSubmit = () => {
     if (
       newAppointment.petName === "" ||
       newAppointment.ownerName === "" ||
@@ -153,80 +153,85 @@ const FormApp = ({ edit, setEdit }) => {
   };
 
   return (
-    <Grid container justifyContent="center">
-      <Grid item>
-        <Typography variant="h3" color="#4a0788" marginY="5%">
-          {conditionalView ? "Agendar Cita Nueva" : "Editar Cita"}
-        </Typography>
-      </Grid>
+    <Box
+      display="flex"
+      alignItems="center"
+      flexDirection="column"
+    >
+      <Typography
+        variant="h4"
+        color="#4a0788"
+        marginTop="3%"
+        marginBottom="1%"
+        textAlign="center"
+      >
+        {conditionalView ? "Agendar Cita Nueva" : "Editar Cita"}
+      </Typography>
       <Box
         sx={{
           bgcolor: "white",
           boxShadow: 2,
           borderRadius: 2,
-          marginLeft: 1,
+          margin: "1.6%",
+          padding: "1%",
           width: "95%",
-          alignSelf: "center",
         }}
       >
-        <FormControl onSubmit={handleSubmit}>
-          <Grid
-            container
-            component="form"
-            noValidate
-            autoComplete="off"
-            marginLeft="20px"
-            marginTop="25px"
-          >
+        <FormControl onSubmit={handleSubmit} sx={{ display: "flex" }}>
+          <Box display="flex" justifyContent="center">
             <TextField
               type="text"
               id="petName"
               label="Nombre Mascota"
               onChange={handleChange}
-              sx={{ m: 1, width: "47ch", alignSelf: "center" }}
-              value={newAppointment.petName}              
+              sx={{ m: 1, width: "50%" }}
+              value={newAppointment.petName}
             />
             <TextField
               type="text"
               id="ownerName"
               label="Propietario"
               onChange={handleChange}
-              sx={{ m: 1, width: "46ch", alignSelf: "center" }}
+              sx={{ m: 1, width: "50%" }}
               value={newAppointment.ownerName}
             />
+          </Box>
+          <Box display="flex" justifyContent="center">
             <TextField
               id="email"
               label="Email / Teléfono"
               onChange={handleChange}
-              sx={{ m: 1, width: "47ch", alignSelf: "center" }}
+              sx={{ m: 1, width: "50%" }}
               type="email"
               value={newAppointment.email}
             />
-            <TextField              
+            <TextField
               id="date"
-              sx={{ m: 1, width: "46ch", alignSelf: "center" }}
+              sx={{ m: 1, width: "50%" }}
               type="datetime-local"
               onChange={handleDate}
               value={newAppointment.date}
             />
+          </Box>
+          <Box display="flex" justifyContent="center">
             <TextField
               type="text"
               id="symptom"
               label="Síntomas"
               onChange={handleChange}
-              sx={{ m: 1, width: "95ch", alignSelf: "center" }}
+              sx={{ m: 1, width: "100%" }}
               multiline
               maxRows={6}
               value={newAppointment.symptom}
             />
+          </Box>
+          <Box display="flex" justifyContent="center">
             <Button
               variant="contained"
               sx={{
                 m: 1,
-                width: "103ch",
+                width: "100%",
                 alignSelf: "center",
-                marginBottom: 4,
-                marginTop: 2,
                 borderRadius: 2,
                 backgroundColor: "#4a0788",
               }}
@@ -239,25 +244,23 @@ const FormApp = ({ edit, setEdit }) => {
                 variant="contained"
                 sx={{
                   m: 1,
-                  width: "103ch",
+                  width: "100%",
                   alignSelf: "center",
-                  marginBottom: 4,
-                  marginTop: -1,
                   borderRadius: 2,
                   backgroundColor: "#4a0788",
                 }}
                 onClick={() => {
-                  setEdit(initialValues);
+                  setEdit({});
                   setNewAppointment(initialValues);
                 }}
               >
                 Cancelar Editar
               </Button>
             )}
-          </Grid>
+          </Box>
         </FormControl>
       </Box>
-    </Grid>
+    </Box>
   );
 };
 
